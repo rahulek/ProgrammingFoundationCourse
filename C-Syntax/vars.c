@@ -3,7 +3,7 @@
 void vars(void)
 {
     int validVar; // valid variable name of type int
-    // char 1number; //invalid since it begins with a digit
+    //char 1number; //invalid since it begins with a digit
     char x10; // ok as begines with an alphabet
     // int x-y; //invalid becase uses a reserved - operator
     int _debugInfo = 1;   // OK to begin with an underscore but used mainly by the tools
