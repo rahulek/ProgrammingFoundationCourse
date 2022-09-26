@@ -1,0 +1,8 @@
+#define MONDAY 1
+#define TUESDAY 2
+#define NUM_DAYS_PER_WEEK 7
+
+#define TAX_RATE_PERCENT 10
+#define INTEREST_RATE_PERCENT 7
+
+#define DEFAULT_NAME "TestUser"
