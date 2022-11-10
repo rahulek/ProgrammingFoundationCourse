@@ -2,7 +2,7 @@
 
 int main(void) {
 	//Step 1. Declare a char array and initialize it statically.
-	char *day = "Trial"; //"A long string for the demo purpose.";
+	char *day = "A long string for the demo purpose.";
 
 	//Step 2. We want a separate pointer variable
 	//to point to the same string, declare it and make it
