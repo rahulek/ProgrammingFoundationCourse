@@ -19,7 +19,7 @@ int main(void) {
 	//until we reach the end of it.
 	//How do we know where the string ends? - NULL byte.
 	while(*pStr != '\0') { 
-		printf("%c ", *pStr);   //Write the char and then a space
+		printf("%c[%d] ", *pStr, *pStr);   //Write the char and then a space
 		//Pointer math:
 		//Incrementing the pointer will move it ahead by (1*sizeof(char))
 		//That is - ahead by 1 byte OR 1 char in the string
