@@ -41,6 +41,14 @@ int main(void) {
 
 	//Step 6: Verify your Step 5 answer with the help of GDB/LLDB
 	//  Take the array dump and ascertain your observations.
+
+	//Step 7: How do you iterate such a 2D array?
+	//ANSWER: Use 2 indices
+	for(int i=0; i<2; i++) {
+		for (int j=0; j<2; j++) {
+			printf("[%d, %d] = %d\n", i, j, matrix[i][j]);
+		}
+	}
 	
 
 	//Done

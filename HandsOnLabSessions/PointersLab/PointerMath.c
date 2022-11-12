@@ -20,7 +20,7 @@ int main(void) {
 	//Pointer will be incremented by (2 * sizeof(int)) = 8 bytes
 
 	pAge++; //simply move to pointer by pointer-type and 1-unit
-	printf("Pointed incremented by 1 unit: Age at index 1 is: %d\n", *pAge);
+	printf("Pointer incremented by 1 unit: Age at index 1 is: %d\n", *pAge);
 
 	//Now Decrement by 1 (we will move backward by 4-bytes)
 	pAge--;
@@ -33,7 +33,7 @@ int main(void) {
 	printf("Pointer decremented by 1 unit, Age at index -1 (INVALID) is: %d\n", *pAge);
 
 	//From here, how can move directly to ages[2] (the last element)
-	pAge += 3;  
+	pAge += 3 ;  
 	printf("Pointerd multipled by 3 units, Age at this index is: %d\n", *pAge);
 
 
