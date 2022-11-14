@@ -1,0 +1,206 @@
+This file is not a C program.
+
+Static Vs Dynamic Memory in C
+=============================
+
+
+============================ STATIC MEMORY ====================================
+
+By definition, "static" means something that's known at compile time.
+
+For example, consider this declaration:
+      int arr[5];
+
+- Assuming that the size of an int is 4-bytes, compiler precisely knows
+  how much memory this "arr" variable will need. It knows that there are
+  5 elements in the array and each element needs 4-bytes. Therefore, overall,
+  20 bytes (5 * 4) would be required to store the "arr" in memory
+
+- The above is an example of a static memory allocation. When the compiler
+  knows precisely how much memory is required, when it compiles the C program,
+  it's considered to be a static memory allocation
+- Compiler allocated 20 bytes in memory and this address can be referred by 
+    (a) using the name: as in "arr" OR
+    (b) by getting an address of the first element of the array: &arr[0]
+- Memory layout:
+  =============
+     &arr[0] OR simply arr
+       |
+       |         ----------------------------------------------
+        ------->| arr[0] | arr[1] | arr[2] | arr[3] | arr[4]   |
+                 ----------------------------------------------
+        offset: 0x0      0x04     0x08     0xC      0x10       0x14
+
+Consider, anothe typical C-declaration:
+     char *name = "Julius Caesar";
+
+- This is also an example of a static declaration which needs memory to be
+  allocated at compile time.
+- Because this is a C-String declaration, compiler knows that it needs to 
+  take the value, append a NULL-termination and therefore, in case of the above
+  example, it calculates the length as : length("Julius Caesar") + 1 byte for the
+  NULL termination = 13 + 1 = 14 bytes
+- Memory layout:
+  =============
+      &name[0] OR name                                      |------ a NULL termination
+       |                                                    v
+       |       -------------------------------------------------
+        -----> | J | u | l | i | u | s | <SPACE> |.....| r | 0 |  
+               -------------------------------------------------   
+       offset: 0   1   2   3   4   5 ............
+
+
+  ========================  DYNAMIC MEMORY ================================
+
+- In contrast to the static allocation, when compiler can't figure out how much memory
+  a variable needs at 'compile-time', its the case of a dynamic memory allocation
+
+- For a C program (and true for almost all types of programs), there are 2 main areas of
+  of memory 
+     (a) Stacks   and 
+     (b) Heaps
+
+- Stack for a C Program is used for -
+     (a) Passing parameters to the functions
+     (b) Setting up call frames on the call-stack (note the word "stack" here)
+     (c) Setting up local variables on the frame created in (b) above
+
+- Heap is a general-purpose memory area maintained by C-runtime library
+     (a) The heap contains grabage and uninitialized memory
+     (b) Using C library functions, you can ask the C-runtime to provide chunks of
+         memory of the required size to your program
+     (c) Becase such an allocation happens when the C Program is running, its called as
+         a dynamic (run-time) allocation as compared to the static allocation at compile
+         time
+     (d) Most important C-library functions for dynamic memory allocation are - 
+           (1) void* malloc(int numBytesNeeded);
+           (2) void* calloc(int numItems, int size);
+           (3) free(allocatedPtr);
+     (e) Such dynamic memory allocations are carved out of the heap
+
+- Conside the code example below - 
+      char *str;
+
+     (a) Its a pointer to char
+     (b) But where is it pointing to?
+         ANSWER: NOWHERE. Because we've only declared it, not initialized it.
+         THIS IS CALLED AS A "DANGLING POINTER"
+     (c) Dangling pointers are BAD and if dereferenced without initializing them,
+         they will make your programs crash
+     (d) So how do we initialize it?
+           OPTION 1: If you've a static string: such as char *name = "Julius Caesar",
+                     you can use: 
+                         str = name;   OR    str = &name[0];
+
+           OPTION 2: You point it to a memory chunk which is initialized at run-time.
+                     That is, you allocate some memory and make "str" point to it.
+
+             str ----> [....dynamically allocated mem chunk on heap.....]
+
+- malloc/calloc/free
+      (a) Use #include <stdlib.h> which contains the prototyps/signatures of these functions
+      (b) malloc
+            - You need to pass in numBytesNeeded parameter to this function
+            - The function will then look into the heap and see if that much memory is
+              available.
+            - If not, it will return NULL
+            - If it's available, it will return you a pointer to the allocated block
+            - NOTE: RETURNED VALUE TYPE IS: void*  (pointer to a void)
+                    THIS MUST BE CONVERTED/CAST INTO A REQUIRED TYPE
+
+          (b-1) Example of malloc
+
+              //note the cast from (void*) to (char*) of the returned pointer from malloc
+              char* str = (char*)malloc(20); //we ask for 20 bytes on heap
+
+              if( str == NULL) {
+                   //malloc failed.
+                   //CAN'T use str; its NULL
+              } else {
+                 //str is now pointing to a memory of 20 bytes.
+                 //Use it as you please.
+
+                 strcpy(str, "20-bytes only");  //can't store more than 20
+
+                 //MOST IMP:  FREE THE MEMORY BLOCK ONCE DONE
+                 //FAILURE TO DO SO IS -
+                 //    * BAD PROGRAMMING
+                 //    * HEAP MEMORY WILL BE EXHAUSTED
+                 //    * MEMORY ALLOCATIONS WILL START FAILING ONCE EXHAUSTED
+
+                 //free the memory (give it back to the heap)
+                 free(str);
+              }
+
+          (b-2) malloc() allocates memory BUT DOES NOT INITIALIZE IT. All the memory
+               contents will be *random*
+
+        (c) calloc
+             - calloc is another function to allocate dynamic heap memory
+             - is similar to malloc() but takes 2 parameters
+                 - numItems
+                 - sizeOfEachElement
+             - is also returns NULL (on failure) OR pointer to a new memory block (if OK)
+             - IMP DIFFERENCE: memory() allocated by calloc() is set to all 0 bytes (all initialized) as compared to malloc()
+
+             (c-1) Example of calloc:
+
+              char* str = (char*)calloc(20, sizeof(char));  //total 20, sizeof(char) is 1
+              if(str == NULL) {
+                  //can't use str, its NULL because calloc failed
+
+              } else {
+                 //use str, its pointing to a newly allocated block
+                 strcpy(str, "dynamic memory"); //only 20 bytes available.
+
+                 //free once done
+                 free(str);
+              }
+
+          (d) free
+             - Memory allocated on heap using malloc() and calloc() MUST BE freed
+             - To free the dynamic memory, call the free(ptr) function. The parameter passed
+                in is what the functions returned
+             - Failure to free the memory -
+             		* IS A BAD PROGRAMMING PRACTICE
+             		* HEAP MEMORY WILL BE EXHAUSTED
+             		* YOUR PROGRAM MAY CRASH IF YOU GO OUT OF HEAP MEMORY
+
+   		 (e) You don't necessarily have to allocate only char-data (1-byte). For example,
+   		     what if I want to 
+   		        - create an array of 5 integers dynamically and store 10, 20, 30, 40, 50?
+
+   		        //Note the var type: its int*, not char*
+   		        int* pArr = NULL;    //explcit NULL init, can't use NULL pointer unless it
+   		                              //points to a proper memory
+
+   		        //Casting is necessary from void* to whatever is our type
+   		        pArr = (int*)malloc(20); //We have 5 ints, each 4 bytes
+   		               --OR--
+   		        pArr = (int*)calloc(5, 4); //calloc: 5 ints, sizeof each 4
+
+   		        //See if malloc()/calloc() successful
+   		        //if successful, store elements and print all of them
+   		        if (pArr != NULL) {
+   		        	//pArr is pointing to the first int of the newly allocated block
+   		        	*pArr = 10;
+
+   		        	//Increment pArr; because its an int*, it will be incremented by 4 bytes
+   		        	pArr++;
+   		        	*pArr = 20;
+
+   		        	//...store 30, 40, 50 ....
+
+   		        	//using for loop, print all our array elements
+   		        	....
+
+   		        	//Done with the dynamic memory, must be freed
+   		        	free(pArr);
+   		        } else {
+   		            //malloc/calloc failed
+   		            fprintf(stderr, "Could not allocated memory for an array....");
+   		            exit(-1); //terminate the program
+   		        }
+
+
+ //=========== END OF NOTES ON STATIC Vs DYNAMIC MEMORY =====================
