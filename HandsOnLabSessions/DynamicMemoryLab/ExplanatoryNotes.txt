@@ -31,7 +31,7 @@ For example, consider this declaration:
                  ----------------------------------------------
         offset: 0x0      0x04     0x08     0xC      0x10       0x14
 
-Consider, anothe typical C-declaration:
+Consider, another typical C-declaration:
      char *name = "Julius Caesar";
 
 - This is also an example of a static declaration which needs memory to be
@@ -66,10 +66,10 @@ Consider, anothe typical C-declaration:
      (c) Setting up local variables on the frame created in (b) above
 
 - Heap is a general-purpose memory area maintained by C-runtime library
-     (a) The heap contains grabage and uninitialized memory
+     (a) The heap contains garbage and uninitialized memory
      (b) Using C library functions, you can ask the C-runtime to provide chunks of
          memory of the required size to your program
-     (c) Becase such an allocation happens when the C Program is running, its called as
+     (c) Because such an allocation happens when the C Program is running, its called as
          a dynamic (run-time) allocation as compared to the static allocation at compile
          time
      (d) Most important C-library functions for dynamic memory allocation are - 
