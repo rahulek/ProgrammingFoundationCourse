@@ -1,0 +1,94 @@
+This is NOT a C program
+
+//Notes of C structs 
+
+In C, structs and unions are discussed together. Structs are more widely
+used than the unions. Here, we discuss *only* the structs
+
+Structs are short-name for "structures". So far, in almost all the C programs,
+we've used basic/primitive data types - such as - ints, char, short, float, double,
+long and collection types of these basic types such as arrays and strings.
+
+Its common in all types of programming to create higher-order data structures by
+combining the primitive types together and treat it as a wholesome structure. Its
+also convenient to create a group that contains multiple fields and then access
+those fields as part of the larger data structure.
+
+
+For example: if our program needs to deal with "Person"s? What's a Person? A person
+will have his/her firstName, lastName and age, for example. Of course, it can have many
+more fields such as likes, dislikes, gender and so on. But to keep it simple and straight,
+let's conside fname, lname and age as the fields of this Person!!
+
+How to we represent such a collection of fields and name it as a Person type? In C,
+this is done using the keyword "struct". The "struct" keyword allows us to create a structure
+that contains multiple fields - For example - in C, this is the way, we define a struct - 
+
+     struct Person {
+       char fname[15];   //fname can't be more than 14 chars, 1 for NULL
+       char lname[25];   //lname can't be more than 24 chars, 1 for NULL
+       int  age;         //a 4-byte quantity to store person's age
+     };
+
+ With this declaration, we've created a named data type called Person. Just like standard C
+ types int, char, short, etc., this is a new "user-defined data type". Given this type, how can we create different people? We call this process as creating instances of the structures
+
+ For example, this is the C syntax to create variables of the "Person" type
+     struct Person me;
+     struct Person alex;
+     syruct Person him;     
+
+ Each of the declarations above creates one variable of the "Person" type. Because we've defined a variable of the Person type, compiler must assign it enough memory to hold information about each Person.
+
+ How much memory our Person instance needs?
+    fname is 15 chars (15 * 1 = 15 bytes), 
+    lname is 25 chars (25 * 1 = 24 bytes) and
+    age   int an int  (4 bytes)
+  ======================= Total of 44 bytes for each Person ====================
+
+
+ So, every time we crete a var (instance of the Person type), we get the 44-bytes of memory
+ assigned for that variable. See below - 
+
+         ============           ==============             =============
+         |   me     |           |   alex     |             |    him    |
+         ============           ==============             =============
+         | fname(15)|           | fname(15)  |             |  fname(15)|
+         ------------           --------------             -------------
+         | lname(25)|           | lname(25)  |             |  lname(25)|
+         ------------           --------------             -------------
+         |  age(4)  |           |   age(4)   |             |    age(4) |
+         ------------           --------------             -------------
+
+ How do you manipulate/read/write each of the struct fields?
+
+There are 2 ways in which the struct fields are accessed.
+
+1) When you only have a struct variable, you access each field with a dot (.) notation
+     me.age = 23;
+     alex.age = 89;
+     him.age = 12;
+
+2) When you have a pointer variable, you access each field with a -> notation
+   for example:
+        struct Person *pPerson = &me;
+        strcpy(pPerson->fname, "John");
+        strcpy(pPerson->lname, "Doe");
+        pPerson->age = 23;
+
+
+SOME BEST PRACTICES RELATED TO THE STRUCTS
+===========================================
+
+1) Because a struct stores multiple types of data, the memory it needs can vary. When the
+required memory gets allocated, its fields may gets aligned in memory at un-natural boundaries. For example: an int field may get assigned to an address which is not 4-byte aligned. Therfore, program's performance mat get impacted. Consider, using #pragma C Preprocessor directive to pack the fields
+
+2) When passing struct across to functions, its better to use a reference (pointer) semantic.
+Pass-by-value needs a copy operation which is costly. Therefore, passing struct by reference is alwaya a good idea.
+
+3) After having created a struct-type, always write 2-3 functions to get/set fields within
+the structure. Have these functions receive the pointer to the struct as the first parameter.
+This will lead to better data protection/encapsulation. Only 2-3 such functions can get/set the field data and other function can access the struct via these accessor functions. This makes the program less buggy and when bugs appear, you can debug the program easily.
+
+
+

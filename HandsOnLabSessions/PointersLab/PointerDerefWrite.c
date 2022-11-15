@@ -31,7 +31,7 @@ int main(void) {
 	//
 	// Because pAge is pointing to an "age", all above will modify the "age" indirectly (through a pointer)
 	//
-	*pAge *= 2;  
+	*pAge *= 2;  //*pAge = *pAge * 2
 
 	//Step 4 - Read the modified "age" back.
 	// You can use direct "age"   OR
