@@ -1,0 +1,85 @@
+This is NOT a C Program.
+
+//File handling in C
+
+It's a common need in programs to read existing files on disk and/or
+create new files. This can be done for storing program's information
+or program's output.
+
+For example - Consider, your favorite editor application. This application
+allows you write your Code OR create slides/presentation, allows you to create
+spreadsheets or your drawings. When you're are done with the application, you would
+want to save your work in form of a disk file. When you click on application's Save
+or Save As.. menu options, all these applications allow you to select a folder where
+the information would be saved and also to name a file in which you want to save your
+work.
+
+Another example - when you compile your C program by using a GCC (or any compiler for that
+matter), if the program is valid, the compiler now must create an EXE file and store all the
+compiled machine code there. The compiler, therfore, would need to create a disk file and store
+the EXE information in there.
+
+In short, creating disk files is a normal work that all non-trivial applications must do.
+
+Type of files
+=============
+On most OSs(Mac, Linux, Windows), directories (folders) and disk files are both considered
+as files. These OSs provide system-level calls to create directories and files which the applications
+in turn use and get the work of creating a file/folder, renaming, writing/reading to the file,
+deleteing folder/file and all related work.
+
+Also, on all the OSs, contents of the disk file also determine their file type. These types are
+(a) Text Files and (b) Binary files.
+
+--- Text Files ---
+=============
+- When you save your C file via the IDE/Editor, its saved in a text file named as you chose. The
+contents of these files are human-readable (ASCII/Extended-ASCII/UTF8 or UTD16 encoded Unicode).
+
+- You can open these files into editors or cat/display their contents on the screen and read/understand
+it without any problem.
+
+- Example of the text files - your C programs on disk, .txt file saved by Notepad, .HTML files for the
+  Web application, .py python files and so on.
+
+
+-- Binary Files ---
+===============
+- Complex data structures which donot contain only the textual data but also numeric data can also
+be stored in the files. These files are not readable and when displayed, would display funny/
+unprintable characters.
+
+- Example - .EXE file created by the compiler. .PNG/.JPG image files created by the paint/edit
+  applications, .PDF file, etc.
+
+- To view such files and understand their contents, you would need a binary editor such as an HexEdit
+
+
+-- File Handling in C ----
+======================
+
+There are many functions defined in stdio.h. Therfore, for handling files in your C Program,
+you must include stdio.h - #include <stdio.h>
+
+The key abstraction provided by the C-Runtime library for the files is the FILE structure. File
+handling programs typically perform the following steps -
+   - Open the File  (fopen)
+   - The open operation may fail (for example: no space on disk OR opening a wrong/non-existent file)
+   - File can be opened for READ/WRITE/APPEND operations - "r", "w", "a" mode parameter
+   - You can also add "b" to the above when dealing with the binary files - "rb", "wb"....
+   - If file was opened successfully -
+       - the fopen returns a pointer to the FILE structure. (FILE*)
+       - Programmer's need not worry about the FILE structure itself
+       - Instead, they should use it and pass it to other file handling functions
+       - To read the contents of the file, there are many functions
+              - fgets/fscanf/fgetc
+       - To write new contents to the file, you can use -
+       		  - fputs/fprintf/fputc ..
+       - Once the file operations are done, the file MUST be closed
+              - fclose(FILE*)
+       - Forgetting to close the file may corrupt the file contents OR the contents may get lost
+       - You can use functions such as "fflush" to flush the memory contents to the disk file
+   - Else (if the file was not openeded successfully)
+       - Program should handle the error, display some useful message and exit
+
+ This explanation is only a preliminary text. More can be found online.
