@@ -36,13 +36,13 @@ that contains multiple fields - For example - in C, this is the way, we define a
  For example, this is the C syntax to create variables of the "Person" type
      struct Person me;
      struct Person alex;
-     syruct Person him;     
+     struct Person him;     
 
  Each of the declarations above creates one variable of the "Person" type. Because we've defined a variable of the Person type, compiler must assign it enough memory to hold information about each Person.
 
  How much memory our Person instance needs?
     fname is 15 chars (15 * 1 = 15 bytes), 
-    lname is 25 chars (25 * 1 = 24 bytes) and
+    lname is 25 chars (25 * 1 = 25 bytes) and
     age   int an int  (4 bytes)
   ======================= Total of 44 bytes for each Person ====================
 

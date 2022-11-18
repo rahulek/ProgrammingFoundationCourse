@@ -37,8 +37,8 @@ int main(void) {
 
 	//Exercise: WHAT WILL HAPPEN IF WE REMOVE THE NULL TERMINATION
 	// at string2[14]???
+	printf("Before removing NULL, string2's is now: %s.\n", string2);
 	string2[14] = '?';   //NULL is gone, therefore the string is now NOT NULL terminated
-	printf("Removed NULL, string2's is now: %s.\n", string2);
 	printf("Removed NULL, string2's length is now: %lu.\n", strlen(string2));
 
 	//Done
