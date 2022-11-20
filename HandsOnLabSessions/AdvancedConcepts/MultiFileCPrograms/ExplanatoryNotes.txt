@@ -1,0 +1,43 @@
+This is NOT a C Program.
+
+//Multi-file C Program.
+
+
+In large production system, any program is made up of multiple source
+files. For example, in case of C, writing all the C code for the program
+inside a single C source file -
+   * will make the same source file very long
+   * will make the code unreadable by others
+   * will make it very difficult to maintain the code over a longer duration
+   * if a single bug needs to be fixed, it will be very difficult to find out
+     where it could be, because the file is too large
+
+Therefore, any reasonably sized production application will always be composed
+of multiple C files.
+
+Because now the C code is divided into multiple C files, many Qs arise - 
+1) How will each file get some common type names, #define values, any structs
+   that may be required across the whole application?
+2) How can we build such a program which is now comprised of multiple C files?
+
+
+For 1) - we can define one OR more application-specific header files which
+include the #defines/structs/typedefs that are required within each source file.
+The function prototypes/signatures of all the functions are also stored in such an
+app specific header file.
+   This app-specific header file now can be included with #include "xxx" OR 
+#include <xxx> in each of the source files such that each source file can now see
+common elements that can be reused.
+
+For 2) - the GCC compiler (and all other compilers too) take in multiple C files
+on their command line. If it gets more than one C file to compile, it gladly compiles
+each C source files and links their object code to create a single executable that can
+then be executed.
+    For example: If we've file1.c, file2.c, file3.c for our program, then,
+    compile as :   gcc -o MyProgram file1.c file2.c file3.c <RETURN>
+    This command will now compile file1.c, file2.c and file3.c and the output will be 
+    stored into a file named "MyProgram" which would be an executable file, if no error
+    occurred during the compilation process.
+
+
+ ----- End of the Explanatory Note -------
