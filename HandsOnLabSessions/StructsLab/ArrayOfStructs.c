@@ -36,7 +36,7 @@ int main(void) {
 	//Step 3: Create array of all these 3 computers
 	struct Computer myDevices[3] = {
 		myLaptop1,
-		myLaptop1,
+		myLaptop2,
 		myMobile
 	};
 
