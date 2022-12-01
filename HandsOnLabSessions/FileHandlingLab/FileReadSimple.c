@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 		while(!feof(pFile)) {
 			char c = fgetc(pFile);
 			printf("%c", c);
-		} 
+	} 
 #else
 		//We must have a line buffer for fgets() to store the line into
 		//fgets() returns NULL when all lines finished/read

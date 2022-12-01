@@ -43,6 +43,7 @@ int main(void) {
 	//Run it under LLDB/GDB to see how the memory corruption takes place.
 	//
 	char smallerBuf[10];
+	int tmp = 1234;
 	strcpy(smallerBuf, str);
 	printf("SmallerBuf ---> %s\n", smallerBuf);
 
